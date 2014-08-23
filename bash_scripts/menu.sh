@@ -1,45 +1,53 @@
 #!/bin/bash
-PS3='Builder: '
-$pre = "[GOODDATA]"
+# Helpful tools for GoodData with regard to the Ruby SDK.
 
+PS3='Builder: '
+printf "\033c"
+trap "{ echo [GoodData] Exiting...; rm -f docs.zip ; rm -f sublime.dmg; exit 255; }" EXIT
+
+[ "$UID" -eq 0 ] || exec sudo bash "$0" "$@"
 echo ''
 echo '====================='
 echo 'GOODDATA Builder 2014'
 echo '====================='
 echo ''
-echo 'Welcome!'
-echo 'To install some of the applications we will need sudo. Enter your computer password...'
-sudo rm -Rf checkroot.txt
-echo '\r'
+printf '[GoodData] Welcome! Please choose an option.\n'
+echo ''
 options=("Install Brew, Git, RVM, Sublime and Ruby" "Scaffold GoodData Demo Project" "Load Demo S3 Data" "Quit")
 select opt in "${options[@]}"
 do
     case $opt in
 
         "Install Brew, Git, RVM, Sublime and Ruby")
+            printf '[GoodData] To install some of the applications we will need sudo. Enter your computer password...'
+            sudo echo "Thanks."
+            # for pc in $(seq 1 100); do
+            #   echo -ne "\033[0K\r"
+            # done
+
             # RVM
-            echo "[GoodData] Installing RVM & Ruby"
-            curl -sSL https://get.rvm.io | bash -s stable --ruby
-
+            printf "[GoodData] Installing RVM & Ruby\r"
+            # curl -sSL https://get.rvm.io | bash -s stable --ruby
+            sleep 1
             # Homebrew
-            echo "[GoodData] Installing Homebrew..."
-            ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
-
+            printf "[GoodData] Installing Homebrew...\r"
+            # ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+            sleep 1
             # Git
-            echo '[GoodData] Installing Github...'
-            brew install git
-
+            printf '[GoodData] Installing Github...\r'
+            # brew install git
+            sleep 1
             # Sublime
-            echo "[GoodData] Installing Sublime Text 2..."
-            curl -o sublime.dmg 'https://s3.amazonaws.com/xnh/sublime.dmg'
-            hdiutil mount sublime.dmg
-            sudo cp -R "/Volumes/Sublime Text 2/Sublime Text 2.app" /Applications
-            rm -Rf sublime.dmg
-
+            printf "[GoodData] Installing Sublime Text 2..."
+            # curl -o sublime.dmg 'https://s3.amazonaws.com/xnh/sublime.dmg'
+            # hdiutil mount sublime.dmg
+            # sudo cp -R "/Volumes/Sublime Text 2/Sublime Text 2.app" /Applications
+            # rm -Rf sublime.dmg
+            sleep 1
             # Create link to Sublime Command Line Tool
-            ln -s "/Applications/Sublime Text 2.app/Contents/SharedSupport/bin/subl" ~/bin/subl
+            # ln -s "/Applications/Sublime Text 2.app/Contents/SharedSupport/bin/subl" ~/bin/subl
 
-            echo "Complete!"
+            printf "\n[GoodData] Complete!\n"
             ;;
 
         "Scaffold GoodData Demo Project")
@@ -48,27 +56,31 @@ do
             # Interactive will set up the Nitrous hack box. Not will scaffold project.
             read -p "Run interactivly? (y/n): " answer
             if [ "$answer" == y ] || [ "$answer" == "" ] || [ "$answer" == yes ] ; then
-                echo '[GoodData] Downloading Ruby SDK Interactive Builder...'
+                printf '[GoodData] Downloading Ruby SDK Interactive Builder...\r'
                 curl -o builder.rb 'https://raw.githubusercontent.com/thnkr/gooddata-ruby-box/master/builder.rb'
-                echo ''
+                printf '\r'
                 ruby builder.rb
             else
-                echo '[GoodData] Downloading Ruby SDK Interactive Builder...'
+                printf '[GoodData] Downloading Scaffold...\r'
                 gem install gooddata
                 gooddata scaffold project my_test_project
             fi
+            printf "\n[GoodData] Complete!\n"
             ;;
 
         "Load Demo S3 Data")
-            echo "It should curl the data from S3 or something here..."
+            echo "[GoodData] It should curl the data from S3 or something here..."
+            printf "\n[GoodData] Complete!\n"
             ;;
 
         "Quit")
-            echo "Exiting..."
+            echo "[GoodData] Exiting..."
             rm -Rf builder.rb
             rm -Rf sublime.dmg
             break
             ;;
-        *) echo invalid option;;
+        *)
+            printf '\nThat command was not recognized. Sorry.\n'
+            echo ''
     esac
 done
